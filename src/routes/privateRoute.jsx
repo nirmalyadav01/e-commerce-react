@@ -1,10 +1,12 @@
 import React from 'react'
-import { Outlet } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
 export default function PrivateRoute() {
+  let auth = localStorage.getItem("user")
+  
   return (
     <>
-    <Outlet/>
+      {auth ? <Outlet /> : <Navigate to="/" />}
     </>
   )
 }

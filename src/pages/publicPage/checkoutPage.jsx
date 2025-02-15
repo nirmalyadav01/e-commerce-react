@@ -1,10 +1,21 @@
 import React from 'react'
 import HeroSection from '../../components/heroSection'
+import { useSelector } from 'react-redux'
+import { getUserDetails } from '../../helper/utils'
+import { useNavigate } from 'react-router-dom'
 
 export default function CheckoutPage() {
+    const cartData = useSelector((store) => store.cart.value)
+    const totalPrice = cartData && cartData.reduce((current, item) => current + item.price * item.quantity, 0)
+    const navigate = useNavigate()
+
+    function PlaceOrder() {
+        
+    }
+
     return (
         <>
-        <HeroSection heading={"Checkout"} />
+            <HeroSection heading={"Checkout"} />
             <div className="container-fluid pt-5">
                 <div className="row px-xl-5">
                     <div className="col-lg-8">
@@ -193,32 +204,26 @@ export default function CheckoutPage() {
                             </div>
                             <div className="card-body">
                                 <h5 className="font-weight-medium mb-3">Products</h5>
-                                <div className="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 1</p>
-                                    <p>$150</p>
-                                </div>
-                                <div className="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 2</p>
-                                    <p>$150</p>
-                                </div>
-                                <div className="d-flex justify-content-between">
-                                    <p>Colorful Stylish Shirt 3</p>
-                                    <p>$150</p>
-                                </div>
+                                {cartData && cartData.map((item, idx) => (
+                                    <div className="d-flex justify-content-between" key={idx}>
+                                        <p>{item.title}</p>
+                                        <p>₹{Math.round(item.price * item.quantity)}</p>
+                                    </div>
+                                ))}
                                 <hr className="mt-0" />
                                 <div className="d-flex justify-content-between mb-3 pt-1">
                                     <h6 className="font-weight-medium">Subtotal</h6>
-                                    <h6 className="font-weight-medium">$150</h6>
+                                    <h6 className="font-weight-medium">₹{Math.round(totalPrice)}</h6>
                                 </div>
                                 <div className="d-flex justify-content-between">
                                     <h6 className="font-weight-medium">Shipping</h6>
-                                    <h6 className="font-weight-medium">$10</h6>
+                                    <h6 className="font-weight-medium">₹0</h6>
                                 </div>
                             </div>
                             <div className="card-footer border-secondary bg-transparent">
                                 <div className="d-flex justify-content-between mt-2">
                                     <h5 className="font-weight-bold">Total</h5>
-                                    <h5 className="font-weight-bold">$160</h5>
+                                    <h5 className="font-weight-bold">₹{Math.round(totalPrice)}</h5>
                                 </div>
                             </div>
                         </div>
@@ -226,49 +231,9 @@ export default function CheckoutPage() {
                             <div className="card-header bg-secondary border-0">
                                 <h4 className="font-weight-semi-bold m-0">Payment</h4>
                             </div>
-                            <div className="card-body">
-                                <div className="form-group">
-                                    <div className="custom-control custom-radio">
-                                        <input
-                                            type="radio"
-                                            className="custom-control-input"
-                                            name="payment"
-                                            id="paypal"
-                                        />
-                                        <label className="custom-control-label" htmlFor="paypal">
-                                            Paypal
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="custom-control custom-radio">
-                                        <input
-                                            type="radio"
-                                            className="custom-control-input"
-                                            name="payment"
-                                            id="directcheck"
-                                        />
-                                        <label className="custom-control-label" htmlFor="directcheck">
-                                            Direct Check
-                                        </label>
-                                    </div>
-                                </div>
-                                <div className="">
-                                    <div className="custom-control custom-radio">
-                                        <input
-                                            type="radio"
-                                            className="custom-control-input"
-                                            name="payment"
-                                            id="banktransfer"
-                                        />
-                                        <label className="custom-control-label" htmlFor="banktransfer">
-                                            Bank Transfer
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div className="card-footer border-secondary bg-transparent">
-                                <button className="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3">
+                                <button className="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3" onClick={PlaceOrder}>
                                     Place Order
                                 </button>
                             </div>

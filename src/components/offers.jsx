@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { simpale } from '../pages/publicPage/homePage'
 
 export default function Offers() {
+    const data = useContext(simpale)
+    console.log(data);
     return (
         <>
             <div className="container-fluid offer pt-5">

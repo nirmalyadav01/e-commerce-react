@@ -1,6 +1,11 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { add } from '../redux/strSlice';
+import { Link } from 'react-router-dom';
 
 export default function Topbar() {
+    const cart = useSelector((store)=>store.cart.value)
+
     return (
         <>
             <div className="container-fluid">
@@ -72,10 +77,10 @@ export default function Topbar() {
                             <i className="fas fa-heart text-primary" />
                             <span className="badge">0</span>
                         </a>
-                        <a href="" className="btn border">
+                        <Link  className="btn border" to="/cart">
                             <i className="fas fa-shopping-cart text-primary" />
-                            <span className="badge">0</span>
-                        </a>
+                            <span className="badge">{cart?.length}</span>
+                        </Link>
                     </div>
                 </div>
             </div>

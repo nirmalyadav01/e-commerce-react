@@ -1,10 +1,22 @@
-import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Slider from './slider'
+import { getUserDetails } from '../helper/utils'
 
-export default function Header({allCategory}) {
+export default function Header({ allCategory }) {
     const path = useLocation().pathname
-    console.log(allCategory);
+    const [user, setUser] = useState()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        setUser(getUserDetails())
+    }, [path])
+
+    function LogOut() {
+        localStorage.clear()
+        navigate("/login")
+    }
+
     return (
         <>
             <div className="container-fluid mb-5">
@@ -16,13 +28,13 @@ export default function Header({allCategory}) {
                             href="#navbar-vertical"
                             style={{ height: 65, marginTop: "-1px", padding: "0 30px" }}
                         >
-                            <h6 className="m-0">Categories</h6> 
+                            <h6 className="m-0">Categories</h6>
                             <i className="fa fa-angle-down text-dark" />
                         </a>
                         <nav
-                            className={`collapse ${path==='/'?"":"position-absolute bg-light"} show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0`}
+                            className={`collapse ${path === '/' ? "" : "position-absolute bg-light"} show navbar navbar-vertical navbar-light align-items-start p-0 border border-top-0 border-bottom-0`}
                             id="navbar-vertical"
-                            style={path==='/'?{}:{width :"calc(100% - 30px)",zIndex:1}}
+                            style={path === '/' ? {} : { width: "calc(100% - 30px)", zIndex: 1 }}
                         >
                             <div
                                 className="navbar-nav w-100 overflow-hidden"
@@ -44,10 +56,10 @@ export default function Header({allCategory}) {
                                         </Link>
                                     </div>
                                 </div> */}
-                                {allCategory && allCategory.map((item,idex)=>(
+                                {allCategory && allCategory.map((item, idex) => (
                                     <Link to="" className="nav-item nav-link" key={idex}>
-                                    {item.name}
-                                </Link>
+                                        {item.name}
+                                    </Link>
                                 ))}
                             </div>
                         </nav>
@@ -71,7 +83,7 @@ export default function Header({allCategory}) {
                                 <span className="navbar-toggler-icon" />
                             </button>
                             <div
-                                className="collapse navbar-collapse justify-content-between"
+                                className="collapse navbar-collapse justify-between"
                                 id="navbarCollapse"
                             >
                                 <div className="navbar-nav mr-auto py-0">
@@ -81,34 +93,25 @@ export default function Header({allCategory}) {
                                     <Link to="/shop" className="nav-item nav-link">
                                         Shop
                                     </Link>
-                                    <div className="nav-item dropdown">
-                                        <Link
-                                            to="#"
-                                            className="nav-link dropdown-toggle"
-                                            data-toggle="dropdown"
-                                        >
-                                            Pages
-                                        </Link>
-                                        <div className="dropdown-menu rounded-0 m-0">
-                                            <Link to="/cart" className="dropdown-item">
-                                                Shopping Cart
-                                            </Link>
-                                            <Link to="/checkout" className="dropdown-item">
-                                                Checkout
-                                            </Link>
-                                        </div>
-                                    </div>
                                     <Link to="/contact" className="nav-item nav-link">
                                         Contact
                                     </Link>
                                 </div>
                                 <div className="navbar-nav ml-auto py-0">
-                                    <Link to="" className="nav-item nav-link">
-                                        Login
-                                    </Link>
-                                    <Link to="" className="nav-item nav-link">
-                                        Register
-                                    </Link>
+                                    {user && user ?
+                                        <>
+                                            <Link to="/add-product" className="nav-item nav-link">
+                                                Add Product
+                                            </Link>
+                                            <button className='btn btn-light' onClick={LogOut}>Log Out ({user.firstName})</button>
+                                        </> : <>
+                                            <Link to="/login" className="nav-item nav-link">
+                                                Login
+                                            </Link>
+                                            <Link to="/sign-up" className="nav-item nav-link">
+                                                Register
+                                            </Link>
+                                        </>}
                                 </div>
                             </div>
                         </nav>

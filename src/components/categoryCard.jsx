@@ -10,7 +10,7 @@ export default function CategoryCard({data}) {
                 >
                     <p className="text-right">15 Products</p>
                     <a href="" className="cat-img position-relative overflow-hidden mb-3">
-                        <img className="img-fluid" src={data.image} alt={data.name} />
+                        <img className="img-fluid" src={data.url} alt={data.name} />
                     </a>
                     <h5 className="font-weight-semi-bold m-0">{data.name}</h5>
                 </div>

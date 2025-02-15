@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import ProductComponent from '../../components/productCom'
 import Offers from '../../components/offers'
 import CategoryComponent from '../../components/categoryCom'
+import { createContext } from 'react'
+
+export const simpale = createContext()
 
 export default function HomePage({ allProducts, allCategory }) {
 
-    console.log(allProducts);
     return (
         <>
             {/* Featured Start */}
@@ -51,15 +53,17 @@ export default function HomePage({ allProducts, allCategory }) {
             </div>
             {/* Featured End */}
             <CategoryComponent allCategory={allCategory} />
-            <Offers />
+            <simpale.Provider value={allProducts}>
+                <Offers />
+            </simpale.Provider>
             <ProductComponent allProducts={allProducts}>
-                <div class="text-center mb-4">
-                    <h2 class="section-title px-5"><span class="px-2">Trandy Products</span></h2>
+                <div className="text-center mb-4">
+                    <h2 className="section-title px-5"><span className="px-2">Trandy Products</span></h2>
                 </div>
             </ProductComponent>
             <ProductComponent>
-                <div class="text-center mb-4">
-                    <h2 class="section-title px-5"><span class="px-2">Just Arrived</span></h2>
+                <div className="text-center mb-4">
+                    <h2 className="section-title px-5"><span className="px-2">Just Arrived</span></h2>
                 </div>
             </ProductComponent>
         </>
